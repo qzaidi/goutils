@@ -18,6 +18,7 @@ var debugFlag bool
 //  logging.Debug.Println("debug message")
 // debug messages are printed only when the program is started with -debug flag
 var Debug *log.Logger
+var Info *log.Logger
 
 // Init installs the command line options for setting output and error log paths, and exposes
 // logging.Debug, which can be used to add code for debug
@@ -27,6 +28,7 @@ func init() {
   flag.BoolVar(&debugFlag,"debug",false,"enable debug logging")
 
   Debug = log.New(ioutil.Discard,"",0)
+  Info = log.New(os.Stdout,"info:",log.Ldate|log.Ltime)
 
   c := make(chan os.Signal, 1)
   signal.Notify(c, syscall.SIGHUP) // listen for sighup
@@ -48,7 +50,7 @@ func LogInit() {
   reopen(2,stderrLog)
 
   if debugFlag {
-    Debug = log.New(os.Stdout,"debug:",log.Ldate|log.Ltime)
+    Debug = log.New(os.Stdout,"debug:",log.Lshortfile|log.Ldate|log.Ltime)
     Debug.Println("---- debug mode ----")
   }
 }

@@ -1,4 +1,4 @@
-logging
+goutils
 -------
 
-common logging package for go servers
+utility package for logging, debug, logrotation and stats.
